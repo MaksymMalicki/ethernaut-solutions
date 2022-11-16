@@ -20,9 +20,9 @@ contract TestFallout is Test{
         Fallout fallout = Fallout(payable(instanceAddress));
         vm.startPrank(myEoa);
         instanceAddress.call{value: 1 wei}(abi.encodeWithSignature("Fal1out()"));
-        assertEq(fallout.owner(), myEoa);
         fallout.collectAllocations();
-        assertEq(address(fallout).balance, 0);
+        bool result = fallbackFactory.validateInstance(payable(instanceAddress), myEoa);
+        assertTrue(result);
         vm.stopPrank();
     }
 }
